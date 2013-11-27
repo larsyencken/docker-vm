@@ -16,7 +16,9 @@ depends('lxc-docker', linux(_), [
 
 pkg('__docker apt source added').
 met('__docker apt source added', _) :-
+    isfile('/etc/apt/sources.list.d/docker.list'),
     bash('diff -q /vagrant/marelle-deps/docker.list /etc/apt/sources.list.d/docker.list').
 meet('__docker apt source added', _) :-
-    sudo('cp -f /vagrant/marelle-deps/docker.list /etc/apt/sources.list.d/docker.list'),
-    sudo('sudo sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"').
+    bash('sudo cp -f /vagrant/marelle-deps/docker.list /etc/apt/sources.list.d/docker.list'),
+    bash('sudo sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"'),
+    bash('sudo apt-get update').
